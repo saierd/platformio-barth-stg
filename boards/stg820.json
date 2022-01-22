@@ -1,0 +1,37 @@
+{
+  "name": "STG-820",
+  "vendor": "BARTH",
+  "url": "",
+  "platform": "ststm32",
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m0",
+    "extra_flags": "-DSTM32F091xC",
+    "f_cpu": "8000000L",
+    "mcu": "stm32f091cc",
+    "product_line": "STM32F091xC",
+    "variant": "STM32F0xx/F091C(B-C)(T-U)",
+    "arduino": {
+      "variant_h": "variant_generic.h"
+    },
+    "framework_extra_flags": {
+      "arduino": "-DARDUINO_GENERIC_F091CCTX"
+    }
+  },
+  "connectivity": ["can"],
+  "debug": {
+    "default_tools": ["stlink"],
+    "jlink_device": "STM32F091CC",
+    "onboard_tools": ["stlink"],
+    "openocd_board": "st_nucleo_f0",
+    "openocd_target": "stm32f0x",
+    "svd_path": "STM32F091x.svd"
+  },
+  "frameworks": ["arduino"],
+  "upload": {
+    "maximum_ram_size": 32768,
+    "maximum_size": 262144,
+    "protocol": "stlink",
+    "protocols": ["stlink"]
+  }
+}

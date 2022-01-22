@@ -1,0 +1,23 @@
+---
+BasedOnStyle: Google
+AccessModifierOffset: -4
+AllowAllArgumentsOnNextLine: "false"
+AllowAllConstructorInitializersOnNextLine: "false"
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: Empty
+BinPackArguments: "false"
+BinPackParameters: "false"
+BreakBeforeBraces: WebKit
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: "120"
+ConstructorInitializerAllOnOneLineOrOnePerLine: "false"
+ConstructorInitializerIndentWidth: 2
+DerivePointerAlignment: "false"
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^".*'
+    Priority: 1
+  - Regex: "^<.*"
+    Priority: 2
+IndentWidth: 4
+PointerAlignment: Left
