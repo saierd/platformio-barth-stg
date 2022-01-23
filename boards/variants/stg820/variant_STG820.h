@@ -12,105 +12,20 @@
  */
 #pragma once
 
-/*----------------------------------------------------------------------------
- *        STM32 pins number
- *----------------------------------------------------------------------------*/
-#define PA0 PIN_A0
-#define PA1 PIN_A1
-#define PA2 PIN_A2
-#define PA3 PIN_A3
-#define PA4 PIN_A4
-#define PA5 PIN_A5
-#define PA6 PIN_A6
-#define PA7 PIN_A7
-#define PA8 8
-#define PA9 9
-#define PA10 10
-#define PA11 11
-#define PA12 12
-#define PA13 13
-#define PA14 14
-#define PA15 15
-#define PB0 PIN_A8
-#define PB1 PIN_A9
-#define PB2 18
-#define PB3 19
-#define PB4 20
-#define PB5 21
-#define PB6 22
-#define PB7 23
-#define PB8 24
-#define PB9 25
-#define PB10 26
-#define PB11 27
-#define PB12 28
-#define PB13 29
-#define PB14 30
-#define PB15 31
-#define PC13 32
-#define PC14 33
-#define PC15 34
-#define PF0 35
-#define PF1 36
-#define PF11 37
-
-// Alternate pins number
-#define PA1_ALT1 (PA1 | ALT1)
-#define PA2_ALT1 (PA2 | ALT1)
-#define PA3_ALT1 (PA3 | ALT1)
-#define PA6_ALT1 (PA6 | ALT1)
-#define PA7_ALT1 (PA7 | ALT1)
-#define PA7_ALT2 (PA7 | ALT2)
-#define PA7_ALT3 (PA7 | ALT3)
-#define PB0_ALT1 (PB0 | ALT1)
-#define PB1_ALT1 (PB1 | ALT1)
-#define PB1_ALT2 (PB1 | ALT2)
-#define PB14_ALT1 (PB14 | ALT1)
-#define PB15_ALT1 (PB15 | ALT1)
-#define PB15_ALT2 (PB15 | ALT2)
-
-#define NUM_DIGITAL_PINS 38
-#define NUM_ANALOG_INPUTS 10
+#define NUM_DIGITAL_PINS 25
+#define NUM_ANALOG_INPUTS 3
 
 // On-board LED pin number
 #ifndef LED_BUILTIN
-#define LED_BUILTIN PNUM_NOT_DEFINED
-#endif
-
-// On-board user button
-#ifndef USER_BTN
-#define USER_BTN PNUM_NOT_DEFINED
-#endif
-
-// SPI definitions
-#ifndef PIN_SPI_SS
-#define PIN_SPI_SS PA4
-#endif
-#ifndef PIN_SPI_SS1
-#define PIN_SPI_SS1 PA15
-#endif
-#ifndef PIN_SPI_SS2
-#define PIN_SPI_SS2 PNUM_NOT_DEFINED
-#endif
-#ifndef PIN_SPI_SS3
-#define PIN_SPI_SS3 PNUM_NOT_DEFINED
-#endif
-#ifndef PIN_SPI_MOSI
-#define PIN_SPI_MOSI PA7
-#endif
-#ifndef PIN_SPI_MISO
-#define PIN_SPI_MISO PA6
-#endif
-#ifndef PIN_SPI_SCK
-#define PIN_SPI_SCK PA5
+#define LED_BUILTIN 5
 #endif
 
 // I2C definitions
 #ifndef PIN_WIRE_SDA
-#define PIN_WIRE_SDA PA10
+#define PIN_WIRE_SDA 18
 #endif
 #ifndef PIN_WIRE_SCL
-#define PIN_WIRE_SCL PA9
+#define PIN_WIRE_SCL 17
 #endif
 
 // Timer Definitions
@@ -124,21 +39,25 @@
 
 // UART Definitions
 #ifndef SERIAL_UART_INSTANCE
-#define SERIAL_UART_INSTANCE 4
+#define SERIAL_UART_INSTANCE 1
 #endif
 
 // Default pin used for generic 'Serial' instance
 // Mandatory for Firmata
 #ifndef PIN_SERIAL_RX
-#define PIN_SERIAL_RX PA1
+#define PIN_SERIAL_RX 10
 #endif
 #ifndef PIN_SERIAL_TX
-#define PIN_SERIAL_TX PA0
+#define PIN_SERIAL_TX 9
 #endif
 
 // Extra HAL modules
 #if !defined(HAL_DAC_MODULE_DISABLED)
 #define HAL_DAC_MODULE_ENABLED
+#endif
+
+#if !defined(HAL_CAN_MODULE_DISABLED)
+#define HAL_CAN_MODULE_ENABLED
 #endif
 
 /*----------------------------------------------------------------------------
