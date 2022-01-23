@@ -7,7 +7,7 @@
     "core": "stm32",
     "cpu": "cortex-m0",
     "extra_flags": "-DSTM32F091xC",
-    "f_cpu": "8000000L",
+    "f_cpu": "16000000L",
     "mcu": "stm32f091cc",
     "product_line": "STM32F091xC",
     "variant": "stg820"
