@@ -1,8 +1,5 @@
 #include <Arduino.h>
 
-#undef LED_BUILTIN
-#define LED_BUILTIN 8
-
 void setup()
 {
     pinMode(LED_BUILTIN, OUTPUT);
