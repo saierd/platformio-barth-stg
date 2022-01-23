@@ -13,11 +13,6 @@ ColumnLimit: "120"
 ConstructorInitializerAllOnOneLineOrOnePerLine: "false"
 ConstructorInitializerIndentWidth: 2
 DerivePointerAlignment: "false"
-IncludeBlocks: Regroup
-IncludeCategories:
-  - Regex: '^".*'
-    Priority: 1
-  - Regex: "^<.*"
-    Priority: 2
 IndentWidth: 4
 PointerAlignment: Left
+SortIncludes: false

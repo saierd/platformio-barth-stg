@@ -7,16 +7,10 @@
     "core": "stm32",
     "cpu": "cortex-m0",
     "extra_flags": "-DSTM32F091xC",
-    "f_cpu": "8000000L",
+    "f_cpu": "16000000L",
     "mcu": "stm32f091cc",
     "product_line": "STM32F091xC",
-    "variant": "STM32F0xx/F091C(B-C)(T-U)",
-    "arduino": {
-      "variant_h": "variant_generic.h"
-    },
-    "framework_extra_flags": {
-      "arduino": "-DARDUINO_GENERIC_F091CCTX"
-    }
+    "variant": "stg820"
   },
   "connectivity": ["can"],
   "debug": {
