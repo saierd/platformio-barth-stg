@@ -1,6 +1,6 @@
-# PlatformIO Example for Barth STG-820 Boards
+# PlatformIO Example for Barth STG-820 and STG-850 Boards
 
-The board definition in `boards/` was created from this [Arduino board definition](https://github.com/jasysdotde/STG-8xx). It uses the same pin numbering. See https://barth-elektronik.com/downloads/9022-0022-A.pdf for more information.
+The board definitions in `boards/` were created from this [Arduino board definition](https://github.com/jasysdotde/STG-8xx). They use the same pin numbering. See https://barth-elektronik.com/downloads/9022-0022-A.pdf for more information.
 
 ## Unlock the Microcontroller Flash
 
