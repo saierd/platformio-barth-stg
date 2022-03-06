@@ -4,7 +4,7 @@ The board definition in `boards/` was created from this [Arduino board definitio
 
 ## Unlock the Microcontroller Flash
 
-Before flashing your own firmware, you need to unlock the microcontroller's flash. Note that this will remove the original firmware!
+Before flashing your own firmware, you need to unlock the microcontroller's flash. **Note that this will remove the original firmware!**
 
 To unlock the flash run
 
