@@ -17,8 +17,8 @@
     "default_tools": ["stlink"],
     "jlink_device": "STM32F091CC",
     "onboard_tools": ["stlink"],
-    "openocd_board": "st_nucleo_f0",
     "openocd_target": "stm32f0x",
+    "openocd_extra_args": ["-c", "reset_config none separate"],
     "svd_path": "STM32F091x.svd"
   },
   "frameworks": ["arduino"],
