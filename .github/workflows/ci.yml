@@ -37,6 +37,19 @@ jobs:
       - name: Build
         run: pio run
 
+      - name: Archive Firmware
+        uses: actions/upload-artifact@v2
+        with:
+          name: firmware
+          path: .pio/build/main/firmware.bin
+          if-no-files-found: error
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: .pio/build/main/firmware.bin
+
   clang-format:
     name: Check Code Formatting
     runs-on: ubuntu-20.04
