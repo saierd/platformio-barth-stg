@@ -20,53 +20,61 @@ void setup()
 #define CAN_100K 10
 #define CAN_50K 20
 
-CanTxMsgTypeDef CAN_TX_Msg;
-CanRxMsgTypeDef CAN_RX_Msg;
-uint8_t u8Data[16];
+CAN_TxHeaderTypeDef CAN_TX_Msg;
+uint8_t txData[8] = {0};
+CAN_RxHeaderTypeDef CAN_RX_Msg;
+uint8_t rxData[8] = {0};
 
 CAN_HandleTypeDef hcan;
 
-extern "C" void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
+extern "C" void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 {
     digitalToggle(LED_BUILTIN);
 
-    if (hcan->pRxMsg->IDE == CAN_ID_STD) {
-        switch (hcan->pRxMsg->StdId) {
+    HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &CAN_RX_Msg, rxData);
+
+    if (CAN_RX_Msg.IDE == CAN_ID_STD) {
+        switch (CAN_RX_Msg.StdId) {
             case 0x100:
                 break;
         }
     } else {
-        switch (hcan->pRxMsg->ExtId) {
+        switch (CAN_RX_Msg.ExtId) {
         }
     }
 
-    __HAL_CAN_ENABLE_IT(hcan, CAN_IT_FMP0);
+    //__HAL_CAN_ENABLE_IT(hcan, CAN_IT_FMP0);
 }
 
 void MainInit()
 {
-    CAN_FilterConfTypeDef sFilterConfig;
+    CAN_FilterTypeDef sFilterConfig;
 
     /* MCU Configuration----------------------------------------------------------*/
 
     // Instance CAN RX and TX
     // Replace CAN_250K in MX_CAN_Init to change the baudrate
-    hcan.pTxMsg = &CAN_TX_Msg;
-    hcan.pRxMsg = &CAN_RX_Msg;
+
     // create open filter
     sFilterConfig.FilterIdHigh = 0;
     sFilterConfig.FilterIdLow = 0;
     sFilterConfig.FilterMaskIdHigh = 0;
     sFilterConfig.FilterMaskIdLow = 0;
     sFilterConfig.FilterFIFOAssignment = 0;
-    sFilterConfig.FilterNumber = 0;
+    sFilterConfig.FilterBank = 0;
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
     sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
     sFilterConfig.FilterActivation = ENABLE;
-    sFilterConfig.BankNumber = 0;
-    HAL_CAN_ConfigFilter(&hcan, &sFilterConfig);
+    sFilterConfig.SlaveStartFilterBank = 0;
+    if (HAL_CAN_ConfigFilter(&hcan, &sFilterConfig) != HAL_OK) {
+        Error_Handler();
+    }
+
     // Interrupt config
-    HAL_CAN_Receive_IT(&hcan, 0);
+    if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK) {
+        Error_Handler();
+    }
+
     // Change CAN from Silent to Active mode
     HAL_GPIO_WritePin(CAN_S_GPIO_Port, CAN_S_Pin, GPIO_PIN_RESET);
 }
@@ -91,16 +99,20 @@ void MX_CAN_Init()
     hcan.Instance = CAN;
     hcan.Init.Prescaler = 4;
     hcan.Init.Mode = CAN_MODE_NORMAL;
-    hcan.Init.SJW = CAN_SJW_1TQ;
-    hcan.Init.BS1 = CAN_BS1_11TQ;
-    hcan.Init.BS2 = CAN_BS2_4TQ;
-    hcan.Init.TTCM = DISABLE;
-    hcan.Init.ABOM = ENABLE;
-    hcan.Init.AWUM = DISABLE;
-    hcan.Init.NART = DISABLE;
-    hcan.Init.RFLM = DISABLE;
-    hcan.Init.TXFP = DISABLE;
+    hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
+    hcan.Init.TimeSeg1 = CAN_BS1_11TQ;
+    hcan.Init.TimeSeg2 = CAN_BS2_4TQ;
+    hcan.Init.TimeTriggeredMode = DISABLE;
+    hcan.Init.AutoBusOff = ENABLE;
+    hcan.Init.AutoWakeUp = DISABLE;
+    hcan.Init.AutoRetransmission = ENABLE;
+    hcan.Init.ReceiveFifoLocked = DISABLE;
+    hcan.Init.TransmitFifoPriority = DISABLE;
     if (HAL_CAN_Init(&hcan) != HAL_OK) {
+        Error_Handler();
+    }
+
+    if (HAL_CAN_Start(&hcan) != HAL_OK) {
         Error_Handler();
     }
 }
@@ -163,12 +175,18 @@ void loop()
     int counter = 0;
 
     while (1) {
-        // Send it by CAN
-        hcan.pTxMsg->IDE = CAN_ID_STD;
-        hcan.pTxMsg->StdId = 0x234;
-        hcan.pTxMsg->DLC = 1;
-        hcan.pTxMsg->Data[0] = counter;
-        HAL_CAN_Transmit(&hcan, 10);
+        CAN_TX_Msg.IDE = CAN_ID_STD;
+        CAN_TX_Msg.StdId = 0x234;
+        CAN_TX_Msg.DLC = 1;
+        CAN_TX_Msg.RTR = CAN_RTR_DATA;
+        CAN_TX_Msg.TransmitGlobalTime = DISABLE;
+
+        txData[0] = counter;
+
+        uint32_t mailbox;
+        HAL_CAN_AddTxMessage(&hcan, &CAN_TX_Msg, txData, &mailbox);
+
+        // TODO: Wait for sending complete.
 
         delay(1000);
 
