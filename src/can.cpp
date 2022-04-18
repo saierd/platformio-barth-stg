@@ -163,8 +163,13 @@ void set_baudrate(Baudrate baudrate)
 void send(uint32_t id, uint8_t const* data, size_t size)
 {
     CAN_TxHeaderTypeDef msg;
-    msg.IDE = CAN_ID_STD;
-    msg.StdId = id;
+    if (id < 2048) {
+        msg.IDE = CAN_ID_STD;
+        msg.StdId = id;
+    } else {
+        msg.IDE = CAN_ID_EXT;
+        msg.ExtId = id;
+    }
     msg.DLC = size;
     msg.RTR = CAN_RTR_DATA;
     msg.TransmitGlobalTime = DISABLE;
