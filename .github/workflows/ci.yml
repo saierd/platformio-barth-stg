@@ -38,7 +38,7 @@ jobs:
         run: pio run
 
       - name: Archive Firmware
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v7
         with:
           name: firmware
           path: .pio/build/main/firmware.bin
