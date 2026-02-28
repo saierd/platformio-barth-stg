@@ -175,7 +175,10 @@ void send(uint32_t id, uint8_t const* data, size_t size)
     msg.TransmitGlobalTime = DISABLE;
 
     uint32_t mailbox;
-    HAL_CAN_AddTxMessage(&hcan, &msg, const_cast<uint8_t*>(data), &mailbox);
+    HAL_StatusTypeDef status = HAL_BUSY;
+    while (status != HAL_OK) {
+        status = HAL_CAN_AddTxMessage(&hcan, &msg, const_cast<uint8_t*>(data), &mailbox);
+    }
 }
 
 void on_receive(ReceiveCallback callback)
