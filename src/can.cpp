@@ -176,7 +176,7 @@ void send(uint32_t id, uint8_t const* data, size_t size)
 
     uint32_t mailbox;
     HAL_StatusTypeDef status = HAL_BUSY;
-    while (status != HAL_OK) {
+    while (status == HAL_BUSY) {
         status = HAL_CAN_AddTxMessage(&hcan, &msg, const_cast<uint8_t*>(data), &mailbox);
     }
 }
